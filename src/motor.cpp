@@ -118,24 +118,10 @@ uint8_t setPosition(int ID, float position) {
 uint8_t doKick(int ID) {
     uint8_t result = 0;
 
-//     result = node[ID].writeSingleRegister(0x6201, 0x0000); // High bits
-//     DEBUG_SERIAL.print("Write PositionH: "); DEBUG_SERIAL.println(result, HEX);
-  
-//     result = node[ID].writeSingleRegister(0x6202, 0x07D0); // Low bits (2000)
-//     DEBUG_SERIAL.print("Write PositionL: "); DEBUG_SERIAL.println(result, HEX);
-
-//    result = node[ID].writeSingleRegister(0x6002, 0x0010); // Start movement
-//    DEBUG_SERIAL.print("Trigger Motion: "); DEBUG_SERIAL.println(result, HEX);
-//     moveToPosition(ID);
-
-// delay(10);
-    setPosition(ID, -0.01*PULSES_PER_REV);
+    setPosition(ID, -0.01);
     moveToPosition(ID);
-    setPosition(ID, 0.01*PULSES_PER_REV);
+    setPosition(ID, 0.01);
     moveToPosition(ID);  
-
-    // setPosition(ID, 1.0);
-    // moveToPosition(ID); 
 
     return result;
 }

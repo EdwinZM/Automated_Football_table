@@ -4,7 +4,7 @@
 #include "config.h"
 #include "screen.h"
 #include "motor.h"
-//hello
+
 ezButton downButton(3);
 ezButton selectButton(4);
 ezButton upButton(5);
@@ -33,6 +33,7 @@ void loop()
     downButton.loop();
     upButton.loop();
     int menu_item;
+
     if (upButton.isPressed() || downButton.isPressed() || selectButton.isPressed())
     {
         printScreenDebugInfo();
@@ -94,12 +95,17 @@ void loop()
         {
             // Slide
             int pos_val = analogRead(POS_PIN);
-            float position = (float)pos_val / 1023.0;
-            DEBUG_SERIAL.print("Moving to position at ");
-            DEBUG_SERIAL.print(position * 100);
-            DEBUG_SERIAL.println("\% of available moving area.");
-            setPosition(selected_motor, position);
+            int position = (pos_val / 1023.0)*100;
+
+            float motorValue = (position / 100.0) * 17;
+            setPosition(selected_motor, motorValue);
             moveToPosition(selected_motor);
+            DEBUG_SERIAL.print("Moving to position at ");
+            DEBUG_SERIAL.print(position);
+            DEBUG_SERIAL.println("\% of available moving area.");
+            DEBUG_SERIAL.print("Moving to position at ");
+            DEBUG_SERIAL.print(motorValue);
+
         }
     }
 }

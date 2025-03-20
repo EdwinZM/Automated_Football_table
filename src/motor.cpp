@@ -6,7 +6,7 @@
 
 ModbusMaster node[9]; // Initialize 9 because driver ID start at 1
 
-float max_position[8] = {4.5, 17.4, 3, 10, 0.5, 0.5, 0.5, 0.5}; 
+float max_position[8] = {4.5, 17.4, 3, 10, 0.5, 0.5, 0.5, 0.5};
 
 void motorLibInitialize() {
     pinMode(MAX485_RE_NEG, OUTPUT);
@@ -28,6 +28,17 @@ void motorInitialize(int ID) {
 
     // Set to position mode
     node[ID].writeSingleRegister(0x6200, 0x0001); 
+
+    // Set soft boundries from home position
+    // Positive
+    //node[ID].writeSingleRegister(0x6006, 0x0001); 
+    //node[ID].writeSingleRegister(0x6007, 0x0001); 
+    // Negative
+    //node[ID].writeSingleRegister(0x6008, 0x0001); 
+    //node[ID].writeSingleRegister(0x6009, 0x0001); 
+
+
+    
     delay(10);
 
     setHome(ID);
@@ -48,7 +59,7 @@ uint8_t setHome(int ID) {
     delay(10);
 
     return result;
-}
+} 
 
 // Set speed to default value
 uint8_t setSpeed(int ID) {
@@ -87,11 +98,11 @@ uint16_t getPosition(int ID) {
 
 uint8_t setPosition(int ID, float position) {
     uint8_t result;
-    float position_rev = (float) max_position[ID]*position; // Indicates the percentage of revolution the player rotates
-    int position_pulses = position_rev*PULSES_PER_REV; // Multiplies the total pulses by the percentage of revolution to get the desired amount of pulses 
+  //  float position_rev = (float) max_position[ID]*position;
+    int position_pulses = position*PULSES_PER_REV;
 
     DEBUG_SERIAL.print("Calculated ");
-    DEBUG_SERIAL.print(position_pulses, HEX);
+    DEBUG_SERIAL.print(position_pulses, DEC);
     DEBUG_SERIAL.println(" pulses for rotation.");
 
     node[ID].writeSingleRegister(0x6201, 0x0000); // set position high word
@@ -107,11 +118,25 @@ uint8_t setPosition(int ID, float position) {
 uint8_t doKick(int ID) {
     uint8_t result = 0;
 
-    setPosition(ID, -0.5); // change to -0.01*PULSES_PER_REV if this doesn't work
-    moveToPosition(ID);
-    setPosition(ID, 0.5); // Same here but positive
-    moveToPosition(ID);
-    
+//     result = node[ID].writeSingleRegister(0x6201, 0x0000); // High bits
+//     DEBUG_SERIAL.print("Write PositionH: "); DEBUG_SERIAL.println(result, HEX);
+  
+//     result = node[ID].writeSingleRegister(0x6202, 0x07D0); // Low bits (2000)
+//     DEBUG_SERIAL.print("Write PositionL: "); DEBUG_SERIAL.println(result, HEX);
+
+//    result = node[ID].writeSingleRegister(0x6002, 0x0010); // Start movement
+//    DEBUG_SERIAL.print("Trigger Motion: "); DEBUG_SERIAL.println(result, HEX);
+//     moveToPosition(ID);
+
+// delay(10);
+    // setPosition(ID, -0.01*PULSES_PER_REV);
+    // moveToPosition(ID);
+    // setPosition(ID, 0.01*PULSES_PER_REV);
+    // moveToPosition(ID);  
+
+    setPosition(ID, 1.0);
+    moveToPosition(ID); 
+
     return result;
 }
 

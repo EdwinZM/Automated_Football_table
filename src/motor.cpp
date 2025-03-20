@@ -129,13 +129,13 @@ uint8_t doKick(int ID) {
 //     moveToPosition(ID);
 
 // delay(10);
-    // setPosition(ID, -0.01*PULSES_PER_REV);
-    // moveToPosition(ID);
-    // setPosition(ID, 0.01*PULSES_PER_REV);
-    // moveToPosition(ID);  
+    setPosition(ID, -0.01*PULSES_PER_REV);
+    moveToPosition(ID);
+    setPosition(ID, 0.01*PULSES_PER_REV);
+    moveToPosition(ID);  
 
-    setPosition(ID, 1.0);
-    moveToPosition(ID); 
+    // setPosition(ID, 1.0);
+    // moveToPosition(ID); 
 
     return result;
 }

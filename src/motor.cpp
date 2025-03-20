@@ -37,8 +37,6 @@ void motorInitialize(int ID) {
     //node[ID].writeSingleRegister(0x6008, 0x0001); 
     //node[ID].writeSingleRegister(0x6009, 0x0001); 
 
-
-    
     delay(10);
 
     setHome(ID);
@@ -122,6 +120,7 @@ uint8_t doKick(int ID) {
     moveToPosition(ID);
     setPosition(ID, 0.01);
     moveToPosition(ID);  
+
 
     return result;
 }

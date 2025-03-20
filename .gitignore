@@ -1,1 +1,6 @@
-.pio
+# PlatformIO build and library directories
+.vscode
+*.pyc
+*.pyo
+*.pyd
+__pycache__

@@ -11,6 +11,9 @@ ezButton upButton(5);
 
 int selected_motor = 1;
 
+int min_slider_length[4] = {150, 205, 195, 200};
+int max_slider_length[4] = {370, 580, 300, 415};
+
 void setup()
 {
     DEBUG_SERIAL.begin(115200);

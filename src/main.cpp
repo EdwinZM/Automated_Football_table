@@ -1,18 +1,21 @@
 #include <Arduino.h>
 #include <ezButton.h>
+#include <iostream>
+#include <stdio.h>
 
 #include "config.h"
 #include "screen.h"
 #include "motor.h"
-
+//hello
 ezButton downButton(3);
 ezButton selectButton(4);
 ezButton upButton(5);
 
 int selected_motor = 1;
 
-int min_slider_length[4] = {150, 205, 195, 200};
-int max_slider_length[4] = {370, 580, 300, 415};
+float max_bound[4] = {0.8, 0.8, 0.8, 0.8};
+float min_bound[4] = {0.1, 0.1, 0.1, 0.1};
+
 
 void setup()
 {
@@ -36,7 +39,6 @@ void loop()
     downButton.loop();
     upButton.loop();
     int menu_item;
-
     if (upButton.isPressed() || downButton.isPressed() || selectButton.isPressed())
     {
         printScreenDebugInfo();
@@ -98,17 +100,25 @@ void loop()
         {
             // Slide
             int pos_val = analogRead(POS_PIN);
-            int position = (pos_val / 1023.0)*100;
+            float position = (float)pos_val / 1023.0;
+            // if (position > max_slider_length[selected_motor - 1]) {
+            //     position = max_slider_length[selected_motor - 1];
+            // } else if (position < min_slider_length[selected_motor - 1]) {
+            //     position = min_slider_length[selected_motor - 1];
+            // }
+            
+            std::cout << position << std::endl;
 
-            float motorValue = (position / 100.0) * 17;
-            setPosition(selected_motor, motorValue);
-            moveToPosition(selected_motor);
+            if (position > max_bound[selected_motor - 1]) {
+                position = max_bound[selected_motor - 1];
+            } else if (position < min_bound[selected_motor - 1]) {
+                position = min_bound[selected_motor - 1];
+            }
             DEBUG_SERIAL.print("Moving to position at ");
-            DEBUG_SERIAL.print(position);
+            DEBUG_SERIAL.print(position * 100);
             DEBUG_SERIAL.println("\% of available moving area.");
-            DEBUG_SERIAL.print("Moving to position at ");
-            DEBUG_SERIAL.print(motorValue);
-
+            setPosition(selected_motor, position); 
+            moveToPosition(selected_motor);
         }
     }
 }

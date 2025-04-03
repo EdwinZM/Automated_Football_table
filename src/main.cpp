@@ -101,14 +101,7 @@ void loop()
             // Slide
             int pos_val = analogRead(POS_PIN);
             float position = (float)pos_val / 1023.0;
-            // if (position > max_slider_length[selected_motor - 1]) {
-            //     position = max_slider_length[selected_motor - 1];
-            // } else if (position < min_slider_length[selected_motor - 1]) {
-            //     position = min_slider_length[selected_motor - 1];
-            // }
             
-            std::cout << position << std::endl;
-
             if (position > max_bound[selected_motor - 1]) {
                 position = max_bound[selected_motor - 1];
             } else if (position < min_bound[selected_motor - 1]) {

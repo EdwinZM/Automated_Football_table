@@ -6,7 +6,7 @@
 
 ModbusMaster node[9]; // Initialize 9 because driver ID start at 1
 
-float max_position[8] = {4.5, 17.4, 3, 10, 0.5, 0.5, 0.5, 0.5};
+//float max_position[8] = {4.5, 17.4, 3, 10, 0.5, 0.5, 0.5, 0.5};
 
 void motorLibInitialize() {
     pinMode(MAX485_RE_NEG, OUTPUT);
@@ -28,14 +28,6 @@ void motorInitialize(int ID) {
 
     // Set to position mode
     node[ID].writeSingleRegister(0x6200, 0x0001); 
-
-    // Set soft boundries from home position
-    // Positive
-    //node[ID].writeSingleRegister(0x6006, 0x0001); 
-    //node[ID].writeSingleRegister(0x6007, 0x0001); 
-    // Negative
-    //node[ID].writeSingleRegister(0x6008, 0x0001); 
-    //node[ID].writeSingleRegister(0x6009, 0x0001); 
 
     delay(10);
 
@@ -120,8 +112,7 @@ uint8_t doKick(int ID) {
     moveToPosition(ID);
     setPosition(ID, 0.01);
     moveToPosition(ID);  
-
-
+   
     return result;
 }
 

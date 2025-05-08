@@ -85,7 +85,7 @@ void screenInitialize() {
     fourth_item->menu_position = 3;
     fourth_item->circle_location = pos_list[fourth_item->menu_position];
     fourth_item->next = head;
-    
+
 }
 
 void slideMenuUp() {
@@ -118,7 +118,7 @@ void moveMenuUp() {
 
 void slideMenuDown() {
     menu_item * current = head;
-    for (int i = 0; i < 45; i = i + 2) {
+    for (int i = 0; i < 44; i = i + 2) {
         do {
             current->circle_location = (current->circle_location-2+360)%360;
 
@@ -131,6 +131,7 @@ void slideMenuDown() {
 }
 
 void moveMenuDown() {
+    
     menu_item * current = head;
     slideMenuDown();
 

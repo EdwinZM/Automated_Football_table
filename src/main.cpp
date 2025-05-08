@@ -11,8 +11,9 @@ ezButton upButton(5);
 
 int selected_motor = 1;
 
-int min_slider_length[4] = {150, 205, 195, 200};
-int max_slider_length[4] = {370, 580, 300, 415};
+//int min_slider_length[4] = {150, 205, 195, 200};
+//int max_slider_length[4] = {370, 580, 300, 415};
+float max_rev[4]= {5.45, 9.45, 2.775, 5.5};
 
 void setup()
 {
@@ -92,7 +93,7 @@ void loop()
         {
             // Kick
             DEBUG_SERIAL.println("Kicking");
-            doKick(selected_motor + 4);
+            doKick(selected_motor+4);
         }
         else if (menu_item == 3)
         {
@@ -100,7 +101,7 @@ void loop()
             int pos_val = analogRead(POS_PIN);
             int position = (pos_val / 1023.0)*100;
 
-            float motorValue = (position / 100.0) * 17;
+            float motorValue = (position / 100.0) * max_rev[selected_motor-1];
             setPosition(selected_motor, motorValue);
             moveToPosition(selected_motor);
             DEBUG_SERIAL.print("Moving to position at ");

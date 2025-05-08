@@ -8,6 +8,8 @@ ModbusMaster node[9]; // Initialize 9 because driver ID start at 1
 
 //float max_position[8] = {4.5, 17.4, 3, 10, 0.5, 0.5, 0.5, 0.5};
 
+int home_position = 0.1;
+
 void motorLibInitialize() {
     pinMode(MAX485_RE_NEG, OUTPUT);
     pinMode(MAX485_DE, OUTPUT);
@@ -16,6 +18,13 @@ void motorLibInitialize() {
     digitalWrite(MAX485_DE, 0);
 
     MOTOR_SERIAL.begin(MOTOR_BAUDRATE);
+
+    // initialize slider motors to home position
+    
+    // for (int i=1; i < 4; i++ ) {
+    //     setPosition(i, home_position);
+    //     moveToPosition(i);
+    // }
 }
 
 void motorInitialize(int ID) {
@@ -29,6 +38,19 @@ void motorInitialize(int ID) {
     // Set to position mode
     node[ID].writeSingleRegister(0x6200, 0x0001); 
 
+<<<<<<< HEAD
+=======
+    // Set soft boundries from home position
+    // Positive
+    //node[ID].writeSingleRegister(0x6006, 0x0001); 
+    //node[ID].writeSingleRegister(0x6007, 0x0001); 
+    // Negative
+    //node[ID].writeSingleRegister(0x6008, 0x0001); 
+    //node[ID].writeSingleRegister(0x6009, 0x0001); 
+
+
+    
+>>>>>>> 3b7dfb29786ffdc1846df5f938ba282f1c97a654
     delay(10);
 
     setHome(ID);
@@ -108,11 +130,15 @@ uint8_t setPosition(int ID, float position) {
 uint8_t doKick(int ID) {
     uint8_t result = 0;
 
-    setPosition(ID, -0.01);
+    setPosition(ID, -0.50);
     moveToPosition(ID);
     setPosition(ID, 0.01);
     moveToPosition(ID);  
+<<<<<<< HEAD
    
+=======
+
+>>>>>>> 3b7dfb29786ffdc1846df5f938ba282f1c97a654
     return result;
 }
 
